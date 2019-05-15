@@ -241,3 +241,9 @@ icea_out <- icea(ce_sim, dr_qalys = .03, dr_costs = .03)
 icea_pw_out <- icea_pw(ce_sim, comparator = 1, dr_qalys = .03, dr_costs = .03)
 
 ## Cost-effectiveness acceptability frontier
+strategy_factor(icea_out$mce)
+ggplot(icea_out$mce[best == 1], aes(x = k, y = prob, col = strategy_name)) +
+  geom_line() + xlab("Willingness to pay") +
+  ylab("Probability most cost-effective") +
+  scale_x_continuous(breaks = seq(0, 200000, 25000), label = scales::dollar) +
+  theme(legend.position = "bottom") + scale_colour_discrete(name = "Strategy")
