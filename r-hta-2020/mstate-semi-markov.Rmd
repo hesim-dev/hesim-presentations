@@ -25,7 +25,7 @@ library("ggplot2")
 
 - Due to the Markov assumption, it is not straightforward (requires tunnel states) to incorporate time dependency
 
-- Semi-Markov models can model time dependency in a very flexible manner but require individual patient simulation, which is computationally expensive
+- Semi-Markov models can model time dependency in a very flexible manner but require individual patient simulation (IPS), which is computationally expensive
 
 - The [`hesim`](https://hesim-dev.github.io/hesim/) package provides a general framework for simulating semi-Markov models very quickly and using them to perform cost-effectiveness analysis (CEA)
 
@@ -131,7 +131,7 @@ transmod_params <- params_surv_list(
 ```
 
 # Simulating disease progression
-- Individual patient simulation (IPS) is required to simulate clock-reset models; can also be used for clock-forward models
+- IPS is required to simulate clock-reset models; can also be used for clock-forward models
 
 - IPS works by simulating trajectories through the multi-state model with random number generation for a large number of patients
 
@@ -198,11 +198,11 @@ transmod_params <- params_surv_list(
 
 - Simulation is very fast if efficient random number generation functions have been implemented in base `R` or a closed-form expression exists for the quantile function (all parametric distributions)
 
-- If not (e.g., splines, fractional polynomials), simulation is slower. There are a couple of options:
+- If not (e.g., splines, fractional polynomials), simulation is slower. Must either:
 
     + Compute quantile function numerically and use inverse CDF method
     + Use discrete time approximation and sample from Bernoulli distribution
-
+    
 # Simulating disease progression with `hesim`
 
 \small
@@ -265,13 +265,13 @@ utility_tbl <- stateval_tbl(
 
 \small
 ```{r, eval = FALSE}
-# Construct utility and cost modes
+# Construct utility and cost models
 utilitymod <- create_StateVals(utility_tbl, n = 1000)
 econmod_cr <- IndivCtstm$new(trans_model = transmod_cr,
                              utility_model = utilitymod,
                              cost_models = costmods)
 
-# Simulate cost and QALYs
+# Simulate costs and QALYs
 econmod_cr$sim_qalys(dr = c(0,.03))
 econmod_cr$sim_costs(dr = 0.03)
 
@@ -292,28 +292,16 @@ cea_pw(ce_sim, comparator = 1, dr_qalys = .03, dr_costs = .03)
     + 100 PSA iterations: 
     + 1,000 PSA iterations:
 
-# What's next?
+# Summary
 
-\begin{columns}
-\begin{column}{0.45\textwidth}
-\begin{itemize}
-\setlength\itemsep{1em}
-\item Allow users to pass functions to update data as a function of simulation output after each transition
-\item Multi-state network meta-analysis  
-\item Support for parallelization 
-\end{itemize}
-\end{column}
+- Semi-Markov models are flexible because they can track patient history; hazards, costs, and/or utility can all depend on time in state (not just model time) 
 
+- Although they can only be simulated in a general manner with IPS, `hesim` eliminates concerns about slow run times
 
-\begin{column}{0.55\textwidth}
-\centering 
-\vspace{2em}
+- In addition to simulating disease progression, `hesim` can be used to (i) simulate cost/QALYs and (ii) perform CEA
 
-\url{https://hesim-dev.github.io/hesim/}
-\vspace{.3em}
+- Some potential features to add: (i) function to update covariates during IPS, (ii) integration with multi-state network meta-analysis, and (iii) support for parallel computing.
 
-\includegraphics[width=\textwidth]{hesim-website}
-\end{column}
+- Learn more and see new updates at [https://hesim-dev.github.io/hesim/](https://hesim-dev.github.io/hesim/)
 
-\end{columns}
 
