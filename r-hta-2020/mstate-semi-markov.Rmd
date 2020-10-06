@@ -287,10 +287,9 @@ cea_pw(ce_sim, comparator = 1, dr_qalys = .03, dr_costs = .03)
     + 1,000 patients, 100 PSA iterations: `hesim`= .44 seconds, `mstate` = 34 minutes
     + 1,000 patients, 1,000 PSA iterations: `hesim` = 5 seconds, `mstate` = N/A
     
-- Comparison of `hesim` IPS (1,000 patients) to `heemod` cohort model 
+- Comparison of `hesim` IPS (1,000 patients) to `heemod` cohort model (60 annual cycles) used to model two treatment strategies with the time-inhomogeneous Markov model from the [*Decision Modeling for Health Economic Evaluation*](https://www.herc.ox.ac.uk/downloads/decision-modelling-for-health-economic-evaluation) textbook
 
-    + 100 PSA iterations: 
-    + 1,000 PSA iterations:
+    + 1,000 PSA iterations: `hesim` = 9 seconds, `heemod` = 85 seconds \footnote{Run time for an equivalent cohort model in \texttt{hesim} was $\approx$ 1 second.}
 
 # Summary
 
