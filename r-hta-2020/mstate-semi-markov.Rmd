@@ -30,11 +30,11 @@ library("ggplot2")
 - The [`hesim`](https://hesim-dev.github.io/hesim/) package provides a general framework for simulating semi-Markov models very quickly and using them to perform cost-effectiveness analysis (CEA)
 
 # What is `hesim`?
-> - A modular and computationally efficient `R` package for health economic simulation modeling and decision analysis that provides a general framework for integrating statistical analyses with economic evaluation
+- A modular and computationally efficient `R` package for building simulation models for economic evaluation
 
 - Supports both cohort and **individual-level** state transition models
 
-- Parameterized by fitting a statistical model (e.g., multi-state model) or creating a custom parameter object
+- Parameterization by fitting a statistical model (e.g., multi-state model) or creating a custom parameter object
 
 - Nearly all simulation code written in `C++` under the hood
 
@@ -48,7 +48,7 @@ knitr::include_graphics("econ-eval-process-hesim.png")
 \begin{column}{0.45\textwidth}
 \small
 \begin{itemize}
-\item Multi-state models can be used to parameterize the disease model
+\item Multi-state models can be used to parameterize a disease model
 
 \item Estimate hazard functions for each possible transition while properly accounting for censoring
 \end{itemize}
@@ -56,6 +56,7 @@ knitr::include_graphics("econ-eval-process-hesim.png")
 
 \begin{column}{0.55\textwidth}
 \centering \small Reversible illness death model
+\vspace{1em}
 ```{r, out.width = ".95\\textwidth", fig.align = "center", echo = FALSE}
 knitr::include_graphics("illness-death.png")
 ```
@@ -135,7 +136,7 @@ transmod_params <- params_surv_list(
 
 - IPS works by simulating trajectories through the multi-state model with random number generation for a large number of patients
 
-- Purpose of IPS is to compute expected values, which is operationalized by averaging over a large number of simulatd patients 
+- Purpose is to compute expected values, which is operationalized by averaging over a large number of simulatd patients 
 
 # Individual patient simulation for multi-state models
 
@@ -171,14 +172,14 @@ transmod_params <- params_surv_list(
 \draw [->,  dash dot] (A) -- node[above] {8} (C);
 }
 
-% Slide 5 only
-\visible<5>{
+% Slide 6 only
+\visible<6>{
 \node (D) at (4, 0) {Healthy};
 \draw [->,  dash dot] (B) -- node[above] {5} (D);
 }
 
-% Slide 5 onwards
-\visible<5->{
+% Slide 6 onwards
+\visible<6->{
 \node (E) at (4, 2) {Dead};
 \draw [->] (B) -- node[above] {4} (E);
 }
@@ -194,7 +195,7 @@ transmod_params <- params_surv_list(
 }
 
 # Computational efficiency
-- `hesim` uses `C++` to vectorize over treatment strategies, patients, and PSA iterations. 
+- `hesim` uses `C++` to vectorize over treatment strategies, patients, and PSA iterations 
 
 - Simulation is very fast if efficient random number generation functions have been implemented in base `R` or a closed-form expression exists for the quantile function (all parametric distributions)
 
@@ -233,7 +234,7 @@ $$
 \sum_{m = 1}^M \int_{t_m}^{t_m+1} z_{hm}e^{-rt}dt = \sum_{m = 1}^M z_{hm} \left(\frac{e^{-r{t_{m}}} - e^{-r{t_{m+1}}}}{r}\right)
 $$
 
-- The present value for health state $h$, $z_h$, can be predicted from a statistical model or predefined; can vary by treatment strategy, patient, and/or time.
+- The present value for health state $h$, $z_h$, can be predicted from a statistical model or predefined; can vary by treatment strategy, patient, and/or time
 
 - IPS is advantageous because state values can reset (e.g., costs in oncology can depend on time in progressed state due to changes in chemotherapy cycles)
 
@@ -291,7 +292,7 @@ cea_pw(ce_sim, comparator = 1, dr_qalys = .03, dr_costs = .03)
 
     + 1,000 PSA iterations: `hesim` = 9 seconds, `heemod` = 85 seconds \footnote{Run time for an equivalent cohort model in \texttt{hesim} was $\approx$ 1 second.}
 
-# Summary
+# Summary 
 
 - Semi-Markov models are flexible because they can track patient history; hazards, costs, and/or utility can all depend on time in state (not just model time) 
 
