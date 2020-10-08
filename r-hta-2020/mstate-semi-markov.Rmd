@@ -9,7 +9,7 @@ output:
     includes:
       in_header: preamble.tex
     latex_engine: xelatex
-classoption: "aspectratio=169"
+classoption: "aspectratio=169, xcolor=table"
 ---
 
 ```{r, include = FALSE}
@@ -64,29 +64,18 @@ knitr::include_graphics("illness-death.png")
 \end{columns}
 
 # Fitting multi-state models in `R`
-
-```{r, echo = FALSE} 
-c1 <- c("Parametric and spline models", 
-        "Non-parametric and semi-parametric models", 
-        "Exponential and piecewise exponential models",
-        "Multi-state network meta-analysis")
-c2 <- c("flexsurv",
-        "mstate", 
-        "msm",
-        "rjags/rbugs/rstan")
-c3 <- c("Continuously observed processes",
-        "Continuously observed processes",
-        "Panel data", 
-        "Summary data from RCTs")
-tbl <- data.table("Statistical method" = c1,
-                  "R package" = c2,
-                  "Data" = c3)
-knitr::kable(tbl, format = "latex", booktabs = TRUE) %>%
-  kable_styling(full_width = TRUE, font_size = 9, latex_options = "striped",
-                stripe_color = "red") %>%
-  column_spec(1, width = ".35\\\\textwidth")  
-```
-
+\footnotesize
+\rowcolors{1}{}{lightgray}
+\begin{tabular}{p{4cm}p{4cm}p{4cm}}
+  \hline
+\textbf{Statistical method} & \textbf{R package} & \textbf{Data}\\
+  \hline
+Parametric and spline models & flexsurv & Continuously observed processes\\
+Non-parametric and semi-parametric models & mstate & Continuously observed processes\\
+Exponential and piecewise exponential models & msm & Panel data\\
+Multi-state network meta-analysis & rjags/rbugs/rstan & Summary data from RCTs\\
+\hline
+\end{tabular}
 
 # Timescales   
 
@@ -136,7 +125,7 @@ transmod_params <- params_surv_list(
 
 - IPS works by simulating trajectories through the multi-state model with random number generation for a large number of patients
 
-- Purpose is to compute expected values, which is operationalized by averaging over a large number of simulatd patients 
+- Purpose is to compute expected values, which is operationalized by averaging over a large number of simulated patients 
 
 # Individual patient simulation for multi-state models
 
