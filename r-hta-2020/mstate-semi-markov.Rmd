@@ -7,7 +7,7 @@ output:
     keep_tex: yes
     theme: metropolis
     includes:
-      in_header: preamble.tex
+      in_header: preamble.tex 
     latex_engine: xelatex
 classoption: "aspectratio=169, xcolor=table"
 ---
@@ -70,10 +70,10 @@ knitr::include_graphics("illness-death.png")
   \hline
 \textbf{Statistical method} & \textbf{R package} & \textbf{Data}\\
   \hline
-Parametric and spline models & flexsurv & Continuously observed processes\\
-Non-parametric and semi-parametric models & mstate & Continuously observed processes\\
-Exponential and piecewise exponential models & msm & Panel data\\
-Multi-state network meta-analysis & rjags/rbugs/rstan & Summary data from RCTs\\
+Parametric and spline models & \texttt{flexsurv} & Continuously observed processes\\
+Non-parametric and semi-parametric models & \texttt{mstate} & Continuously observed processes\\
+Exponential and piecewise exponential models & \texttt{msm} & Panel data\\
+Multi-state network meta-analysis & \texttt{rjags}/\texttt{rbugs}/\texttt{rstan} & Summary data from RCTs\\
 \hline
 \end{tabular}
 
@@ -135,7 +135,7 @@ transmod_params <- params_surv_list(
 
 % Slide 2 only
 \only<2>{
-\item In \textbf{clock-reset} models sampling can be performed using standard survival distributions; in a \textbf{clock-forward} model sampling must be performed from truncated distributions since time does not reset 
+\item In \textbf{clock-reset} models sampling can be performed using standard survival distributions; in a \textbf{clock-forward} model samples must be drawn from truncated distributions since time does not reset 
 }
 
 % Slide 3 onwards
@@ -179,7 +179,7 @@ transmod_params <- params_surv_list(
 \visible<7>{
 % Slide 7
 \begin{itemize}
-\item Patient transitions from (i) healthy to sick at year 3 and (ii) from sick to death at year 7
+\item Patient transitions from (i) healthy to sick at year 3 and (ii) sick to death at year 7
 \end{itemize}
 }
 
@@ -223,7 +223,7 @@ $$
 \sum_{m = 1}^M \int_{t_m}^{t_m+1} z_{hm}e^{-rt}dt = \sum_{m = 1}^M z_{hm} \left(\frac{e^{-r{t_{m}}} - e^{-r{t_{m+1}}}}{r}\right)
 $$
 
-- The present value for health state $h$, $z_h$, can be predicted from a statistical model or predefined; can vary by treatment strategy, patient, and/or time
+- The value for health state $h$, $z_h$, can be predicted from a statistical model or predefined; can vary by treatment strategy, patient, and/or time
 
 - IPS is advantageous because state values can reset (e.g., costs in oncology can depend on time in progressed state due to changes in chemotherapy cycles)
 
@@ -255,7 +255,7 @@ utility_tbl <- stateval_tbl(
 
 \small
 ```{r, eval = FALSE}
-# Construct utility and cost models
+# Construct cost and utility models
 utilitymod <- create_StateVals(utility_tbl, n = 1000)
 econmod_cr <- IndivCtstm$new(trans_model = transmod_cr,
                              utility_model = utilitymod,
@@ -277,9 +277,9 @@ cea_pw(ce_sim, comparator = 1, dr_qalys = .03, dr_costs = .03)
     + 1,000 patients, 100 PSA iterations: `hesim`= .44 seconds, `mstate` = 34 minutes
     + 1,000 patients, 1,000 PSA iterations: `hesim` = 5 seconds, `mstate` = N/A
     
-- Comparison of `hesim` IPS (1,000 patients) to `heemod` cohort model (60 annual cycles) used to model two treatment strategies with the time-inhomogeneous Markov model from the [*Decision Modeling for Health Economic Evaluation*](https://www.herc.ox.ac.uk/downloads/decision-modelling-for-health-economic-evaluation) textbook
+- Comparison of `hesim` individual-level (1,000 patients) to `heemod` cohort-level (60 annual cycles) when evaluating two treatment strategies with the time-inhomogeneous Markov model from the [*Decision Modeling for Health Economic Evaluation*](https://www.herc.ox.ac.uk/downloads/decision-modelling-for-health-economic-evaluation) textbook
 
-    + 1,000 PSA iterations: `hesim` = 9 seconds, `heemod` = 85 seconds \footnote{Run time for an equivalent cohort model in \texttt{hesim} was $\approx$ 1 second.}
+    + 1,000 PSA iterations: `hesim` = 9 seconds, `heemod` = 85 seconds\footnote{Run time for an equivalent cohort model in \texttt{hesim} was $\approx$ 1 second.}
 
 # Summary 
 
@@ -289,7 +289,7 @@ cea_pw(ce_sim, comparator = 1, dr_qalys = .03, dr_costs = .03)
 
 - In addition to simulating disease progression, `hesim` can be used to (i) simulate cost/QALYs and (ii) perform CEA
 
-- Some potential features to add: (i) function to update covariates during IPS, (ii) integration with multi-state network meta-analysis, and (iii) support for parallel computing.
+- Some potential features to add: (i) function to update covariates during IPS, (ii) integration with multi-state network meta-analysis, and (iii) support for parallel computing
 
 - Learn more and see new updates at [https://hesim-dev.github.io/hesim/](https://hesim-dev.github.io/hesim/)
 
